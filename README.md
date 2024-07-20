@@ -1,77 +1,43 @@
 # http-handler-modules
 
-# Project Overview
+## 프로젝트 목표
 
-Hi, I'm Hong JungWan, a second-year Go developer. I worked on a boilerplate project for team members who are new to the Go language.
+* context 패키지나 database/sql 패키지 등의 필수 패키지 사용법
 
-This project demonstrates various aspects of web application development, including creating an HTTP server, using middleware, implementing HTTP endpoints, Test Code and integrating JWT with an RDBMS for authentication and authorization. Below is a detailed overview of what is covered in this project.
+
+* testing 패키지 외의 표준 패키지를 사용한 테스트 기법
+
+
+* 업계 표준이 된 외부 오픈소스
+
+
+* 누구나 한 번쯤은 코드 리뷰에서 지적당한 적이 있는 웹 애플리케이션을 구현할 때 발생할 수 있는 실수/실패
+
+<br>
+
+위와 같은 내용을 학습한다.
 
 <br><br>
 
-# Table of Contents
+## 실습 내용
 
-### Creating an HTTP Server
-- Initializing the Project
-- Running the Web Server
-- Writing Code for Middleware Tests
-- Making Ports Configurable
-
-<br>
-
-### Preparing the Development Environment
-- Running the Application with Docker
-- Writing a Makefile
-
-<br>
-
-### Changing HTTP Server Configuration for Weak Coupling
-- Bringing in Settings from Environment Variables
-- Handling Signals
-- Defining Server Structure
-- Defining Routes Separately
-- Refactoring the run Function
-
-<br>
-
-### Adding Endpoints
-- Implementing entity.Task Type Definition and Temporary Storage
-- Implementing Helper Functions
-- Implementing Endpoints to Register Tasks
-- Implementing Tests Combining Table-Driven Tests and Golden Tests
-- Implementing Endpoints to Return Task List
-- Defining HTTP Handlers for Routes
-
-<br>
-
-### Implementing Database Processing Using RDBMS
-- Setting Up MySQL Execution Environment
-- Implementing RDBMS Processing
-- Writing Tests for RDBMS-Related Features
-
-<br>
-
-### Dividing HTTP Handlers by Function
-- Writing Repository Layer for RDBMS in HTTP Handlers
-- Dividing HTTP Handlers
-- Automatically Generating Mock Code
-- Writing User Registration Features
-- Verifying Functionality
-
-<br>
-
-### Using Redis and JWT for Authentication and Authorization
-- Functions Implemented in This Chapter
-- Preparing Redis
-- Preparing JWT Signing
-- Writing Access Tokens Using JWT
-- Implementing User Login Endpoints
-- Implementing Authentication Features Using Middleware
-- Implementing Endpoints to Protect Routes with Authentication Information
-- Verifying Functionality
+| Title | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| --- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| HTTP 서버 만들기 | 리팩터링 테스트 코드<br>- 쉽지 않은 테스트<br>- run 함수를 처리 분리하기<br>- 테스트가 실행되지 않는 경우<br><br>포트 번호를 변경할 수 있도록 만들기<br>- 동적으로 포트 번호 설정하기<br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|  |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| HTTP 서버를 약한 결합 구조로 변경하기 | 환경 변수로부터 설정 불러오기<br>- Config 패키지 구현하기<br>- 환경 변수를 사용해서 실행하기<br><br> 시그널 처리하기<br>- signal.NotifyContext를 사용해 시그널 기다리기<br><br>Server 구조체 정의하기<br><br>라우팅 정의를 분할한 NewMux 정의하기<br>- httptest 패키지를 사용한 테스트<br><br>run 함수를 다시 리팩터링하기<br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|  |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 엔드포인트 추가하기 | entity.Task 타입 정의와 영구 저장 방법의 임시 구현<br>- entity.Task의 영구 저장 방법 임시 구현<br><br>헬퍼 함수를 구현하기<br>- 테스트용 헬퍼 함수 구현하기<br><br>태스크를 등록하는 엔드포인트 구현<br>- 요청 바디 검증<br><br>테이블 주도 테스트와 골든 테스트를 조합한 테스트 코드<br><br>태스크 목록을 반환하는 엔드포인트 구현<br><br>HTTP 핸들러를 라우팅으로 설정하기<br>- github.com/go-chi/chi를 사용한 유연한 라우팅 설정                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|  |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| RDBMS를 사용한 데이터베이스 처리 구현하기 | 테이블 정의와 마이그레이션 방법 검증<br>- 마이그레이션 도구<br>- 깃허브 액션에서 MySQL 컨테이너 실행하기<br><br>RDBMS 처리 구현<br>- database/sql과 github.com/jmoiron/sqlx 패키지 사용<br>- 환경 변수에서 정보 읽기<br>- 인터페이스와 Repository 타입 정의<br>- RDBMS 관련 접근을 위한 테스트 템플릿 함수<br><br>RDBMS 관련 접근을 위한 테스트 코드<br>- 실행 환경에 따라 접속 정보를 변경하는 테스트 템플릿 함수<br>- 실제 RDBMS를 사용한 테스트하기<br>- 목을 사용한 테스트하기<br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|  |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 기능별로 HTTP 핸들러 구현 분할하기 | HTTP 핸들러 기능 분할<br><br> go generate 명령을 사용한 목 자동 생성<br>- github.com/matryer/moq 패키지<br><br>목 코드 자동 생성<br>- handler.AddTaskService를 사용한 handler.AddTask 리팩터링<br><br> 사용자 등록 기능 작성<br>- entity 패키지 구현<br>- handler 패키지 구현<br>- service 패키지 구현<br>- store 패키지 구현<br>- NewMux 함수에 로그인 엔드포인트 정의하기<br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|  |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 레디스와 JWT를 사용한 인증 및 권한 | 레디스 준비<br> - 레디스를 사용하기 위한 애플리케이션 코드 준비<br>- KVS 타입을 위한 테스트 작성<br>JWT의 서명 준비<br>- openssl 명령 준비<br>- 비밀키와 공개키 생성<br><br>JWT를 사용한 액세스 토큰 작성<br>- JWTer 구조체 선언<br>- go:embed를 사용한 파일 첨부하기<br>- JWT를 발행하는 GenerationToken 메서드 구현<br>- HTTP 요청에서 JWT 받기<br>- JWT 정보를 context.Context 타입값에 넣기<br><br> 사용자 로그인 엔드포인트 구현<br>- handler 패키지 구현<br>- service 패키지 구현<br>- store 패키지 구현<br>- NewMux 함수에 로그인 엔드포인트 정의하기<br><br> 미들웨어 패턴을 사용한 인증 기능<br>- http.Request의 context.Context 타입값에 사용자 ID와 관련된 정보 넣기<br>- 요청 전송 사용자 admin 권한인지 검증하기<br><br> 요청에 포함된 인증과 관련된 정보를 사용한 엔드포인트 보호<br>- 테이블 정의 마이그레이션 작성<br>- entity.Task 구조체 선언<br>- 로그인 사용자만 태스크 추가하기<br>- POST /tasks로 자신이 등록한 태스크만 추가<br>- GET /tasks로 자신이 등록한 태스크만 보이도록 변경하기<br>- admin 권한 사용자만 접근할 수 있는 엔드포인트 만들기 |
 
 <br><br>
 
-# Test Code Run
+## Test Code Run
 
 ```go
 go test ./...
