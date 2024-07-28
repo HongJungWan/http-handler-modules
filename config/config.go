@@ -14,7 +14,7 @@ type Config struct {
 	DBName     string `env:"TODO_DB_NAME" envDefault:"todo"`
 }
 
-func New() (*Config, error) {
+func NewConfig() (*Config, error) {
 	cfg := &Config{}
 	if err := env.Parse(cfg); err != nil {
 		return nil, err
